@@ -28,20 +28,12 @@
   <main>
     <section aria-labelledby="contact-heading">
         <h1 id="contact-heading">CONTACT ME</h1>
-        <form>
-            <div>
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required aria-labelledby="true">
-            </div>
-            <div>
-                <label for="email">Email Address</label>
-                <input type="text" id="name" name="email" required aria-labelledby="true">
-            </div>
-            <div>
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="5" required aria-required="true"></textarea>
-            </div>
-            <button type="Submit">Send Message</button>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
+
+            <button type="submit">Send</button>
         </form>
     </section>
   </main>
@@ -51,4 +43,26 @@
     </p>
   </footer>
 </body>
+<script>
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value
+  };
+
+  const res = await fetch("http://localhost:5000/api/contact", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  alert(result.message);
+});
+</script>
 </html>
